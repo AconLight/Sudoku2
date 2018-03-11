@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Set;
 
 public class BoardChecker {
-
     public boolean checkBoard(Board board) {
         return checkSubMatrices(board) && checkRowsAndColumns(board);
     }
