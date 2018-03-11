@@ -1,13 +1,6 @@
 package sudoku;
 
-/**
- * Created by Wojciech on 2018-03-11.
- */
 public class Board {
-
-    public int[][] getBoard() {
-        return board;
-    }
 
     private int[][] board;
 
@@ -15,12 +8,20 @@ public class Board {
         board = new int[9][9];
     }
 
+    public Board(int[][] boardContent) {
+        board = boardContent;
+    }
+
     public Board(Board b) {
-        for(int y = 0; y < 9; y++) {
+        for (int y = 0; y < 9; y++) {
             for (int x = 0; x < 9; x++) {
                 this.board[x][y] = b.board[x][y];
             }
         }
+    }
+
+    public int[][] getBoard() {
+        return board;
     }
 
     //TODO diffrent exceptions
