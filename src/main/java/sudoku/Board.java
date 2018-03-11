@@ -18,7 +18,7 @@ public class Board {
     //TODO diffrent exceptions
     public void fill(int x, int y, int value) throws Exception {
         if (x < 0 || x >= 9 || y < 0 || y >= 9) throw new Exception();
-        if (value < 0 || value >= 9) throw new Exception();
+        if (value <= 0 || value > 9) throw new Exception();
         board[x][y] = value;
     }
 }
