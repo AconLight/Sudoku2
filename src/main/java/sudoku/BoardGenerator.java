@@ -13,35 +13,41 @@ public class BoardGenerator {
     private static Random rand = new Random();
     private static BoardChecker boardChecker;
 
-    private static void fill(Stack<Board> boards, int id) throws Exception{
-        if (id < 81) {
-            if (id < 0) id = 80;
-            System.out.println("fill start " + id);
-            tempBoard = new Board(tempBoard);
-            for (int zakres = 9; zakres > 0; zakres--) {
-                tempBoard.fill(id % 9, id / 9, rand.nextInt(zakres) + 9 - zakres + 1);
-                if(true) {
-                //if (boardChecker.checkBoard(tempBoard)) {
-                    //wrzuca dobrą próbę na stos
-                    boards.push(tempBoard);
-                    //odpala następny fill
-                    if (id != 80) {
-                        fill(boards, ++id);
+    private static boolean fill(Stack<Board> boards, int id) throws Exception{
+            System.out.println(id);
+            if (id != 81) {
+                tempBoard = new Board(tempBoard);
+                for (int zakres = 1; zakres <= 9; zakres++) {
+                    tempBoard.fill(id % 9, id / 9, (zakres + id)%9+1);
+                        if (boardChecker.checkBoard(tempBoard)) {
+                        //if(id%4 + 2 > zakres) {
+                        //wrzuca dobrą próbę na stos
+                        boards.push(tempBoard);
+                        //odpala następny fill
+                        if (fill(boards, ++id)) {
+                            return true;
+                        } else {
+
+                            //boards.pop();
+                            tempBoard = boards.pop();
+                            boards.push(tempBoard);
+                            //robi kopię do następnej próby w pętli
+                            tempBoard = new Board(tempBoard);
+                        }
+
+                    } else {
+                        //ustawia poprzednią próbę w tempBoard
+                        tempBoard = boards.pop();
+                        //wrzuca tą próbę, bo pop ją zrzuciło przy okazji
+                        boards.push(tempBoard);
+                        //robi kopię do następnej próby w pętli
+                        tempBoard = new Board(tempBoard);
                     }
-                    else {
-                        return;
-                    }
-                } else {
-                    //ustawia poprzednią próbę w tempBoard
-                    tempBoard = boards.pop();
-                    //wrzuca tą próbę, bo pop ją zrzuciło przy okazji
-                    boards.push(tempBoard);
-                    //robi kopię do następnej próby w pętli
-                    tempBoard = new Board(tempBoard);
                 }
+                System.out.println("wrong" + id);
+                return false;
             }
-            fill(boards, --id);
-        }
+            return true;
     }
 
     public static Board fillBoard() throws Exception{
