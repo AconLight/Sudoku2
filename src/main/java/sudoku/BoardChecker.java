@@ -15,7 +15,7 @@ public class BoardChecker {
     }
 
     private boolean checkRows(Board board, boolean isVertical) {
-        List<Integer> analyzedNumbers = new ArrayList<>();
+        List<Integer> analyzedNumbers = new ArrayList();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (isVertical) {
@@ -31,7 +31,7 @@ public class BoardChecker {
             if (!checkRepetitions(analyzedNumbers)) {
                 return false;
             }
-            analyzedNumbers = new ArrayList<>();
+            analyzedNumbers = new ArrayList();
         }
         return true;
     }
@@ -51,7 +51,7 @@ public class BoardChecker {
         int x = subMatrixIndexX * 3;
         int y = subMatrixIndexY * 3;
 
-        List<Integer> analyzedNumbers = new ArrayList<>();
+        List<Integer> analyzedNumbers = new ArrayList();
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -64,7 +64,7 @@ public class BoardChecker {
     }
 
     private boolean checkRepetitions(List<Integer> analyzedNumbers) {
-        Set<Integer> setOfAnalyzedNumbers = new HashSet<>(analyzedNumbers);
+        Set<Integer> setOfAnalyzedNumbers = new HashSet(analyzedNumbers);
         return setOfAnalyzedNumbers.size() == analyzedNumbers.size();
     }
 }
