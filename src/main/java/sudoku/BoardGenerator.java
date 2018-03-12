@@ -12,15 +12,17 @@ public class BoardGenerator {
     private static Stack<Board> boards;
     private static Random rand = new Random();
     private static BoardChecker boardChecker;
+    private static boolean asd = true;
 
     private static boolean fill(Stack<Board> boards, int id) throws Exception{
-            System.out.println(id);
+            //System.out.println(id);
             if (id != 81) {
                 tempBoard = new Board(tempBoard);
+                int k = rand.nextInt(9);
                 for (int zakres = 1; zakres <= 9; zakres++) {
-                    tempBoard.fill(id % 9, id / 9, (zakres + id)%9+1);
+                    tempBoard.fill(id % 9, id / 9, (zakres + k)%9+1);
                         if (boardChecker.checkBoard(tempBoard)) {
-                        //if(id%4 + 2 > zakres) {
+                       // if(false) {
                         //wrzuca dobrą próbę na stos
                         boards.push(tempBoard);
                         //odpala następny fill
@@ -36,6 +38,7 @@ public class BoardGenerator {
                         }
 
                     } else {
+                       // System.out.print("w");
                         //ustawia poprzednią próbę w tempBoard
                         tempBoard = boards.pop();
                         //wrzuca tą próbę, bo pop ją zrzuciło przy okazji
@@ -44,13 +47,14 @@ public class BoardGenerator {
                         tempBoard = new Board(tempBoard);
                     }
                 }
-                System.out.println("wrong" + id);
+                //System.out.println("wrong" + id);
                 return false;
             }
             return true;
     }
 
     public static Board fillBoard() throws Exception{
+        asd = true;
         boardChecker = new BoardChecker();
         tempBoard = new Board();
         boards = new Stack();

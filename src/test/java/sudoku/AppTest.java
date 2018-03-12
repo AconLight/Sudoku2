@@ -1,4 +1,4 @@
-package 10;
+package sudoku;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
