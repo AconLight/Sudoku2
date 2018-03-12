@@ -14,56 +14,52 @@ public class BoardGenerator {
     private static BoardChecker boardChecker;
     private static boolean asd = true;
 
-    private static boolean fill(Stack<Board> boards, int id) throws Exception{
-            System.out.println("fill " + id);
-            if (id != 81) {
-                tempBoard = boards.pop();
-                boards.push(tempBoard);
-                tempBoard = new Board(tempBoard);
+    private static boolean fill(Stack<Board> boards, int id) throws Exception {
+        if (id != 81) {
+            tempBoard = boards.pop();
+            boards.push(tempBoard);
+            tempBoard = new Board(tempBoard);
 
-                int k = rand.nextInt(9);
-                k = 0;
-                for (int zakres = 1; zakres <= 9; zakres++) {
-                    System.out.println("try " + ((zakres + k)%9+1));
-                    //brudzi temBoard
-                    tempBoard.fill(id % 9, id / 9, (zakres + k)%9+1);
-                        if (boardChecker.checkBoard(tempBoard)) {
-                        //wrzuca dobrą próbę na stos
-                        boards.push(tempBoard);
-                        //odpala następny fill
-                        if (fill(boards, id+1)) {
-                            return true;
-                        } else {
-                            //zrzucenie złej próby
-                            boards.pop();
-                            //czyści tempBoard
-                            tempBoard = boards.pop();
-                            boards.push(tempBoard);
-                            tempBoard = new Board(tempBoard);
-                        }
-
+            int k = rand.nextInt(9);
+            for (int zakres = 1; zakres <= 9; zakres++) {
+                //brudzi temBoard
+                tempBoard.fill(id % 9, id / 9, (zakres + k) % 9 + 1);
+                if (boardChecker.checkBoard(tempBoard)) {
+                    //wrzuca dobrą próbę na stos
+                    boards.push(tempBoard);
+                    //odpala następny fill
+                    if (fill(boards, id + 1)) {
+                        return true;
                     } else {
-                        //ustawia poprzednią próbę w tempBoard
+                        //zrzucenie złej próby
+                        boards.pop();
+                        //czyści tempBoard
                         tempBoard = boards.pop();
-                        //wrzuca tą próbę, bo pop ją zrzuciło przy okazji
                         boards.push(tempBoard);
-                        //robi kopię do następnej próby w pętli
                         tempBoard = new Board(tempBoard);
                     }
+
+                } else {
+                    //ustawia poprzednią próbę w tempBoard
+                    tempBoard = boards.pop();
+                    //wrzuca tą próbę, bo pop ją zrzuciło przy okazji
+                    boards.push(tempBoard);
+                    //robi kopię do następnej próby w pętli
+                    tempBoard = new Board(tempBoard);
                 }
-                System.out.println("wrong" + id);
-                return false;
             }
-            return true;
+            return false;
+        }
+        return true;
     }
 
-    public static Board fillBoard() throws Exception{
+    public static void fillBoard(Board board) throws Exception {
         asd = true;
         boardChecker = new BoardChecker();
         tempBoard = new Board();
         boards = new Stack();
         boards.push(tempBoard);
         fill(boards, 0);
-        return boards.pop();
+        board.set(boards.pop());
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 public class BoardChecker {
-    public boolean checkBoard(Board board) {
+    boolean checkBoard(Board board) {
         return checkSubMatrices(board) && checkRowsAndColumns(board);
     }
 
@@ -66,5 +66,37 @@ public class BoardChecker {
     private boolean checkRepetitions(List<Integer> analyzedNumbers) {
         Set<Integer> setOfAnalyzedNumbers = new HashSet(analyzedNumbers);
         return setOfAnalyzedNumbers.size() == analyzedNumbers.size();
+    }
+
+
+    public boolean isOk(int currentRowPosition, int currentColumnPosition, int valueToCheck, int[][] board) {
+        for (int i=0; i < 9; i++) {
+            if (board[currentRowPosition][i] == valueToCheck && currentColumnPosition != i) {
+                return false;
+            }
+        }
+
+        for (int i=0; i < 9; i++) {
+            if (board[i][currentColumnPosition] == valueToCheck && currentRowPosition != i) {
+                return false;
+            }
+        }
+
+
+        int squareFirstRowNumber = 3 * (currentRowPosition / 3);
+        int squareFirstColumnNumber = 3 * (currentColumnPosition / 3);
+
+        int squareEndRowNumber = squareFirstRowNumber + 2;
+        int squareEndColumnNumber = squareFirstColumnNumber + 2;
+
+        for (int x = squareFirstRowNumber; x <= squareEndRowNumber; x++) {
+            for (int y = squareFirstColumnNumber; y <= squareEndColumnNumber; y++) {
+                if (board[x][y] == valueToCheck && currentRowPosition != x && currentColumnPosition != y) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

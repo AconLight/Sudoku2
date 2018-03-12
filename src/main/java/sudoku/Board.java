@@ -21,8 +21,16 @@ public class Board {
         }
     }
 
+    public void set(Board b) {
+        board = b.getBoard();
+    }
+
     public int[][] getBoard() {
         return board;
+    }
+
+    public int getBoardValue(int x, int y) {
+        return board[x][y];
     }
 
     //TODO diffrent exceptions
@@ -42,5 +50,13 @@ public class Board {
             s += "\n";
         }
         return s;
+    }
+
+    public void fillBoard() {
+        try {
+            BoardGenerator.fillBoard(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,10 +1,8 @@
-/*package test;
+package sudoku;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
-import sudoku.Board;
-import sudoku.BoardChecker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -120,4 +118,4 @@ class BoardCheckerTest {
         return tab;
     }
 
-}*/
+}
