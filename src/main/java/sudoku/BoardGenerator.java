@@ -8,37 +8,41 @@ import java.util.Stack;
  */
 public class BoardGenerator {
 
-    private static Board tempBoard;
+    private static Board tempBoard, tempBoard2;
     private static Stack<Board> boards;
     private static Random rand = new Random();
     private static BoardChecker boardChecker;
     private static boolean asd = true;
 
     private static boolean fill(Stack<Board> boards, int id) throws Exception{
-            //System.out.println(id);
+            System.out.println("fill " + id);
             if (id != 81) {
+                tempBoard = boards.pop();
+                boards.push(tempBoard);
                 tempBoard = new Board(tempBoard);
+
                 int k = rand.nextInt(9);
+                k = 0;
                 for (int zakres = 1; zakres <= 9; zakres++) {
+                    System.out.println("try " + ((zakres + k)%9+1));
+                    //brudzi temBoard
                     tempBoard.fill(id % 9, id / 9, (zakres + k)%9+1);
                         if (boardChecker.checkBoard(tempBoard)) {
-                       // if(false) {
                         //wrzuca dobrą próbę na stos
                         boards.push(tempBoard);
                         //odpala następny fill
-                        if (fill(boards, ++id)) {
+                        if (fill(boards, id+1)) {
                             return true;
                         } else {
-
-                            //boards.pop();
+                            //zrzucenie złej próby
+                            boards.pop();
+                            //czyści tempBoard
                             tempBoard = boards.pop();
                             boards.push(tempBoard);
-                            //robi kopię do następnej próby w pętli
                             tempBoard = new Board(tempBoard);
                         }
 
                     } else {
-                       // System.out.print("w");
                         //ustawia poprzednią próbę w tempBoard
                         tempBoard = boards.pop();
                         //wrzuca tą próbę, bo pop ją zrzuciło przy okazji
@@ -47,7 +51,7 @@ public class BoardGenerator {
                         tempBoard = new Board(tempBoard);
                     }
                 }
-                //System.out.println("wrong" + id);
+                System.out.println("wrong" + id);
                 return false;
             }
             return true;
