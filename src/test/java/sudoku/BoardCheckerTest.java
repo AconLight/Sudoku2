@@ -10,41 +10,37 @@ class BoardCheckerTest {
     @Test
     @DisplayName("BoardChecker tests")
     void correctBoardTest(TestInfo testInfo) {
-        BoardChecker boardChecker = new BoardChecker();
-        assertEquals(true, boardChecker.checkBoard(new Board(generateCorrectSudokuBoard())),
+        SudokuBoard b = new SudokuBoard(generateCorrectSudokuBoard());
+        System.out.println(b.toString());
+        assertEquals(true, b.checkBoard(),
                 "Checker is given a correct board");
     }
 
     @Test
     @DisplayName("BoardChecker tests")
     void emptyBoardTest(TestInfo testInfo) {
-        BoardChecker boardChecker = new BoardChecker();
-        assertEquals(true, boardChecker.checkBoard(new Board(generateEmptyBoard())),
+        assertEquals(true, new SudokuBoard(generateEmptyBoard()).checkBoard(),
                 "Checker is given a board with mistake in sub matrix");
     }
 
     @Test
     @DisplayName("BoardChecker tests")
     void incorrectSubMatrixTest(TestInfo testInfo) {
-        BoardChecker boardChecker = new BoardChecker();
-        assertEquals(false, boardChecker.checkBoard(new Board(generateBoardWithBadSubMatrix())),
+        assertEquals(false, new SudokuBoard(generateBoardWithBadSubMatrix()).checkBoard(),
                 "Checker is given a board with mistake in sub matrix");
     }
 
     @Test
     @DisplayName("BoardChecker tests")
     void incorrectColumnTest(TestInfo testInfo) {
-        BoardChecker boardChecker = new BoardChecker();
-        assertEquals(false, boardChecker.checkBoard(new Board(generateBoardWithBadColumn())),
+        assertEquals(false, new SudokuBoard(generateBoardWithBadColumn()).checkBoard(),
                 "Checker is given a board with mistake in sub matrix");
     }
 
     @Test
     @DisplayName("BoardChecker tests")
     void incorrectRowTest(TestInfo testInfo) {
-        BoardChecker boardChecker = new BoardChecker();
-
-        assertEquals(false, boardChecker.checkBoard(new Board(generateBoardWithBadRow())),
+        assertEquals(false, new SudokuBoard(generateBoardWithBadRow()).checkBoard(),
                 "Checker is given a board with mistake in sub matrix");
     }
 
