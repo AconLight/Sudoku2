@@ -1,47 +1,35 @@
 package sudoku;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInfo;
+import org.junit.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
-class BoardCheckerTest {
+public class BoardCheckerTest2 {
     @Test
-    @DisplayName("BoardChecker tests")
-    void correctBoardTest(TestInfo testInfo) {
+    public void correctBoardTest() {
         SudokuBoard b = new SudokuBoard(generateCorrectSudokuBoard());
         System.out.println(b.toString());
-        assertEquals(true, b.checkBoard(),
-                "Checker is given a correct board");
+        assertEquals(true, b.checkBoard());
     }
 
     @Test
-    @DisplayName("BoardChecker tests")
-    void emptyBoardTest(TestInfo testInfo) {
-        assertEquals(true, new SudokuBoard(generateEmptyBoard()).checkBoard(),
-                "Checker is given a board with mistake in sub matrix");
+    public void emptyBoardTest() {
+        assertEquals(true, new SudokuBoard(generateEmptyBoard()).checkBoard());
     }
 
     @Test
-    @DisplayName("BoardChecker tests")
-    void incorrectSubMatrixTest(TestInfo testInfo) {
-        assertEquals(false, new SudokuBoard(generateBoardWithBadSubMatrix()).checkBoard(),
-                "Checker is given a board with mistake in sub matrix");
+    public void incorrectSubMatrixTest() {
+        assertEquals(false, new SudokuBoard(generateBoardWithBadSubMatrix()).checkBoard());
     }
 
     @Test
-    @DisplayName("BoardChecker tests")
-    void incorrectColumnTest(TestInfo testInfo) {
-        assertEquals(false, new SudokuBoard(generateBoardWithBadColumn()).checkBoard(),
-                "Checker is given a board with mistake in sub matrix");
+    public void incorrectColumnTest() {
+        assertEquals(false, new SudokuBoard(generateBoardWithBadColumn()).checkBoard());
     }
 
     @Test
-    @DisplayName("BoardChecker tests")
-    void incorrectRowTest(TestInfo testInfo) {
-        assertEquals(false, new SudokuBoard(generateBoardWithBadRow()).checkBoard(),
-                "Checker is given a board with mistake in sub matrix");
+    public void incorrectRowTest() {
+        assertEquals(false, new SudokuBoard(generateBoardWithBadRow()).checkBoard());
     }
 
     private int[][] generateCorrectSudokuBoard() {

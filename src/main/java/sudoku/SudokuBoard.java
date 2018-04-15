@@ -26,24 +26,27 @@ public class SudokuBoard {
         SudokuField[] temp = new SudokuField[9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                temp[j] = board[i][j];
+                temp[j] =  board[i][j];
             }
             columns[i] = new SudokuSubBoard(temp);
         }
+
+        temp = new SudokuField[9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 temp[j] = board[j][i];
-                System.out.print(temp[j].getValue());
             }
             rows[i] = new SudokuSubBoard(temp);
         }
+
+        temp = new SudokuField[9];
         for (int a = 0; a < 9; a++) {
-            for (int i = a % 3; i < a % 3 + 3; i++) {
-                for (int j = a / 3; j < a / 3 + 3; j++) {
-                    temp[j + i] = board[i][j];
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    temp[j*3 + i] = board[a%3*3 + i][a/3*3 + j];
                 }
-                boxes[a] = new SudokuSubBoard(temp);
             }
+            boxes[a] = new SudokuSubBoard(temp);
         }
     }
 
@@ -81,23 +84,20 @@ public class SudokuBoard {
     }
 
     public boolean checkBoard() {
-        System.out.println("rows");
 
         for (SudokuSubBoard b : rows) {
             if (!b.verify()) {
                 return false;
             }
         }
-        System.out.println("boxes");
 
         int i = 0;
         for (SudokuSubBoard b : boxes) {
             i++;
-            if (!b.verify(i)) {
+            if (!b.verify()) {
                 return false;
             }
         }
-        System.out.println("columns");
 
         for (SudokuSubBoard b : columns) {
             if (!b.verify()) {
