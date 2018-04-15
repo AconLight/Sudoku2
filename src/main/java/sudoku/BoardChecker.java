@@ -19,7 +19,7 @@ public class BoardChecker {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (isVertical) {
-                    if (board.getBoard()[i][j].getValue() != 0) {
+                    if (board.get(i, j) != 0) {
                         analyzedNumbers.add(board.get(i, j));
                     }
                 } else {
