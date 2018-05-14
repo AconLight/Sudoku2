@@ -96,6 +96,10 @@ public class SudokuBoard {
         setElements();
     }
 
+    public SudokuBoard clone() {
+        return new SudokuBoard(this);
+    }
+
     public boolean checkBoard() {
 
         for (SudokuSubBoard b : rows) {

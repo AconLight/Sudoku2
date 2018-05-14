@@ -22,6 +22,12 @@ public class SudokuSubBoard {
         }
     }
 
+    public SudokuSubBoard(List<SudokuField> fields) {
+        for(int i = 0; i < fields.size(); i++) {
+            this.fields.add(fields.get(i));
+        }
+    }
+
     public boolean verify() {
         Set<Integer> usedNumbers = new HashSet<Integer>();
         int count = 0;
@@ -57,6 +63,10 @@ public class SudokuSubBoard {
         return "SudokuSubBoard{" +
                 "fields=" + fields +
                 '}';
+    }
+
+    public SudokuSubBoard clone() {
+        return new SudokuSubBoard(fields);
     }
 
 }

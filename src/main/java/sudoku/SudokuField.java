@@ -3,7 +3,7 @@ package sudoku;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class SudokuField {
+public class SudokuField implements Comparable<SudokuField>{
     public int getValue() {
         return value;
     }
@@ -37,5 +37,13 @@ public class SudokuField {
 
     public String toString() {
         return "asd";
+    }
+
+    public SudokuField clone() {
+        return new SudokuField(value);
+    }
+
+    public int compareTo(SudokuField field) {
+        return getValue() - field.getValue();
     }
 }
