@@ -36,7 +36,8 @@ public class BacktrackingSudokuSolver implements SudokuSolver{
             for (int zakres = 1; zakres <= 9; zakres++) {
                 //brudzi temBoard
                 tempBoard.set(id % 9, id / 9, (zakres + k) % 9 + 1);
-                if (boardChecker.checkBoard(tempBoard)) {
+                //if (boardChecker.checkBoard(tempBoard)) {
+                if (tempBoard.checkBoard()) {
                     //wrzuca dobrą próbę na stos
                     boards.push(tempBoard);
                     //odpala następny fill

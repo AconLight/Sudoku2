@@ -3,9 +3,10 @@ package sudoku;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class SudokuSubBoard {
+public class SudokuSubBoard implements Serializable {
     public List<SudokuField> fields;
 
     public SudokuSubBoard(SudokuField[] fields) {

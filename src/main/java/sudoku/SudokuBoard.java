@@ -1,10 +1,11 @@
 package sudoku;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuBoard {
+public class SudokuBoard implements Serializable{
 
     private List<List<SudokuField>> board;
     private  List<SudokuSubBoard> columns, rows, boxes;
@@ -149,7 +150,7 @@ public class SudokuBoard {
         if (x < 0 || x >= 9 || y < 0 || y >= 9) {
             throw new Exception();
         }
-        if (value <= 0 || value > 9) {
+        if (value < 0 || value > 9) {
             throw new Exception();
         }
         board.get(x).get(y).setValue(value);

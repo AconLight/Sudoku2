@@ -13,10 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import sudoku.BacktrackingSudokuSolver;
-import sudoku.BoardCleaner;
-import sudoku.Level;
-import sudoku.SudokuBoard;
+import sudoku.*;
 
 public class Main extends Application {
 
@@ -24,6 +21,7 @@ public class Main extends Application {
     Scene menuScene, playScene;
     SudokuBoard board = new SudokuBoard();
     BacktrackingSudokuSolver solver = new BacktrackingSudokuSolver();
+    TextField[][] tfs;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -98,7 +96,7 @@ public class Main extends Application {
         grid.add(btn3, 1, 3);
 
 
-        return new Scene(grid, 400, 400);
+        return new Scene(grid, 600, 600);
     }
 
     public Scene loadPlayScene() {
@@ -108,6 +106,7 @@ public class Main extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         TextField tf;
+        tfs = new TextField[9][9];
         try {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
@@ -116,13 +115,76 @@ public class Main extends Application {
                     } else {
                         tf = new TextField("" + board.get(i, j));
                     }
+                    tfs[i][j] = tf;
                     grid.add(tf, i, j);
                 }
             }
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
+        Button btn = new Button();
+        btn.setText("save game");
+        btn.setOnAction(new EventHandler<ActionEvent>() {
 
-        return new Scene(grid, 400, 400);
+            @Override
+            public void handle(ActionEvent event) {
+                SudokuSerializer.serialize(board);
+            }
+        });
+        Button btn2 = new Button();
+        btn2.setText("load game");
+        btn2.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                board = SudokuSerializer.deserialize();
+                playScene = loadPlayScene();
+
+                primaryStage.setScene(playScene);
+            }
+        });
+
+        Button btn3 = new Button();
+        btn3.setText("apply");
+        btn3.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        try {
+                            if (tfs[i][j].getCharacters().toString().equals("")) {
+                                board.set(i, j, 0);
+                                //System.out.println( "dfh" + tfs[i][j].getCharacters().toString());
+                            }
+                            else {
+                                board.set(i, j, Integer.parseInt(tfs[i][j].getCharacters().toString()));
+                                //System.out.println("ert" + tfs[i][j].getCharacters().toString());
+                            }
+                        } catch (Exception e) {
+                            //System.out.println( "asd" + tfs[i][j].getCharacters().toString());
+                        }
+
+
+                    }
+
+                }
+                board = new SudokuBoard(board);
+                if (board.checkBoard()) {
+                    System.out.println(board.toString());
+                    playScene = loadPlayScene();
+
+                    primaryStage.setScene(playScene);
+                }
+                else {
+                    System.out.println("WRONG!");
+                }
+            }
+        });
+
+        grid.add(btn, 3, 10);
+        grid.add(btn2, 6, 10);
+        grid.add(btn3, 4, 12);
+        return new Scene(grid, 600, 600);
     }
 
     public static void main(String[] args) {

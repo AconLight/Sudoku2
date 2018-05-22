@@ -1,13 +1,15 @@
 package sudoku;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BoardChecker {
+public class BoardChecker implements Serializable{
     boolean checkBoard(final SudokuBoard board) throws Exception {
-        return checkSubMatrices(board) && checkRowsAndColumns(board);
+        return board.checkBoard();
+        //return checkSubMatrices(board) && checkRowsAndColumns(board);
     }
 
     private boolean checkRowsAndColumns(final SudokuBoard board) throws Exception {
