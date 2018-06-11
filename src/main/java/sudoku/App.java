@@ -7,7 +7,7 @@ public class App {
         SudokuBoard board = new SudokuBoard();
         BacktrackingSudokuSolver solver = new BacktrackingSudokuSolver();
         solver.solve(board);
-
+/*
 
         SudokuBoard s2;
 
@@ -19,6 +19,15 @@ public class App {
         System.out.println(board);
         if (board.checkBoard()) {
             System.out.println("ok");
-        }
+        }*/
+
+        SudokuBoardDaoFactory.connect();
+        SudokuBoardDaoFactory.dropTables();
+        SudokuBoardDaoFactory.createTables();
+        SudokuBoardDaoFactory.saveSudokuBoard(board, "asd2");
+        SudokuBoard b2 = SudokuBoardDaoFactory.loadSudokuBoard("asd2");
+        System.out.println(board.toString());
+        System.out.println(b2.toString());
+
     }
 }

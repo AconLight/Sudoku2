@@ -10,7 +10,7 @@ public class SudokuBoard implements Serializable{
 
     private List<List<SudokuField>> board;
     private  List<SudokuSubBoard> columns, rows, boxes;
-
+    public String name;
     private BoardChecker boardChecker;
 
     private final static Logger logger = Logger.getLogger(LoggerManager.class.getName());
@@ -128,6 +128,12 @@ public class SudokuBoard implements Serializable{
         return true;
     }
 
+    public SudokuField getSudokuField(int x, int y) throws SudokuBoardOutOfBoundGetException {
+        if (x < 0 || x >= 9 || y < 0 || y >= 9) {
+            throw new SudokuBoardOutOfBoundGetException();
+        }
+        return board.get(x).get(y);
+    }
 
     public int get(int x, int y) throws SudokuBoardOutOfBoundGetException {
         if (x < 0 || x >= 9 || y < 0 || y >= 9) {

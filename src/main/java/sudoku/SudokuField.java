@@ -20,7 +20,10 @@ public class SudokuField implements Comparable<SudokuField>, Serializable {
     }
 
     private int value;
+    private boolean canBeModify;
 
+    public void setCanBeModify(boolean b) {canBeModify = b;}
+    public boolean getCanBeModify() {return canBeModify;}
 
     @Override
     public int hashCode() {
