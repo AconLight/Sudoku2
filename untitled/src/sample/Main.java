@@ -15,6 +15,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import sudoku.*;
 
+import java.util.logging.Logger;
+
 public class Main extends Application {
 
     Stage primaryStage;
@@ -22,9 +24,11 @@ public class Main extends Application {
     SudokuBoard board = new SudokuBoard();
     BacktrackingSudokuSolver solver = new BacktrackingSudokuSolver();
     TextField[][] tfs;
+    private final static Logger logger = Logger.getLogger(LoggerManager.class.getName());
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        LoggerManager.init();
         solver.solve(board);
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Sudoku");
@@ -47,7 +51,7 @@ public class Main extends Application {
                 try {
                     BoardCleaner.clean(board, Level.easy);
                 } catch (Exception e) {
-                    System.out.println("exception");
+                    logger.info(e.toString());
                 }
                 playScene = loadPlayScene();
                 primaryStage.setScene(playScene);
@@ -62,7 +66,7 @@ public class Main extends Application {
                 try {
                     BoardCleaner.clean(board, Level.medium);
                 } catch (Exception e) {
-                    System.out.println("exception");
+                    logger.info(e.toString());
                 }
                 playScene = loadPlayScene();
                 primaryStage.setScene(playScene);
@@ -77,7 +81,7 @@ public class Main extends Application {
                 try {
                     BoardCleaner.clean(board, Level.hard);
                 } catch (Exception e) {
-                    System.out.println("exception");
+                    logger.info(e.toString());
                 }
                 playScene = loadPlayScene();
 
@@ -99,6 +103,21 @@ public class Main extends Application {
         return new Scene(grid, 600, 600);
     }
 
+    public void updatePlayScene() {
+        try {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (board.get(i, j) == 0) {
+                        tfs[i][j].setText("");
+                    } else {
+                        tfs[i][j].setText("" + board.get(i, j));
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
     public Scene loadPlayScene() {
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -114,6 +133,7 @@ public class Main extends Application {
                         tf = new TextField("");
                     } else {
                         tf = new TextField("" + board.get(i, j));
+                        tf.setDisable(true);
                     }
                     tfs[i][j] = tf;
                     grid.add(tf, i, j);
@@ -123,6 +143,7 @@ public class Main extends Application {
         }
         Button btn = new Button();
         btn.setText("save game");
+        btn.setPrefWidth(125);
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
@@ -132,13 +153,14 @@ public class Main extends Application {
         });
         Button btn2 = new Button();
         btn2.setText("load game");
+        btn2.setPrefWidth(125);
         btn2.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 board = SudokuSerializer.deserialize();
-                playScene = loadPlayScene();
-
+                //playScene = loadPlayScene();
+                updatePlayScene();
                 primaryStage.setScene(playScene);
             }
         });
@@ -154,14 +176,12 @@ public class Main extends Application {
                         try {
                             if (tfs[i][j].getCharacters().toString().equals("")) {
                                 board.set(i, j, 0);
-                                //System.out.println( "dfh" + tfs[i][j].getCharacters().toString());
                             }
                             else {
                                 board.set(i, j, Integer.parseInt(tfs[i][j].getCharacters().toString()));
-                                //System.out.println("ert" + tfs[i][j].getCharacters().toString());
                             }
                         } catch (Exception e) {
-                            //System.out.println( "asd" + tfs[i][j].getCharacters().toString());
+                            logger.info(e.toString());
                         }
 
 
@@ -170,13 +190,12 @@ public class Main extends Application {
                 }
                 board = new SudokuBoard(board);
                 if (board.checkBoard()) {
-                    System.out.println(board.toString());
-                    playScene = loadPlayScene();
+                    updatePlayScene();
 
                     primaryStage.setScene(playScene);
                 }
                 else {
-                    System.out.println("WRONG!");
+                    logger.info("Sudoku is wrongly solved!");
                 }
             }
         });

@@ -6,12 +6,11 @@ public class SudokuSerializer {
     public static void serialize(SudokuBoard e) {
         try {
             FileOutputStream fileOut =
-                    new FileOutputStream("/tmp/sudoku.ser");
+                    new FileOutputStream("sudoku2.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(e);
             out.close();
             fileOut.close();
-            //System.out.printf("Serialized data is saved in /tmp/employee.ser");
         } catch (IOException i) {
             i.printStackTrace();
         }
@@ -20,7 +19,7 @@ public class SudokuSerializer {
     public static SudokuBoard deserialize() {
         SudokuBoard e;
         try {
-            FileInputStream fileIn = new FileInputStream("/tmp/sudoku.ser");
+            FileInputStream fileIn = new FileInputStream("sudoku2.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             e = (SudokuBoard) in.readObject();
             in.close();

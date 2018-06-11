@@ -14,7 +14,8 @@ public class SudokuField implements Comparable<SudokuField>, Serializable {
         this.value = value;
     }
 
-    public void setValue(int value) {
+    public void setValue(int value) throws SudokuFieldOutOfBoundException {
+        if (value < 0 || value > 9) throw new SudokuFieldOutOfBoundException();
         this.value = value;
     }
 

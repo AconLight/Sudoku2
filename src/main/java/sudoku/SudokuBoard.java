@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SudokuBoard implements Serializable{
 
@@ -11,6 +12,8 @@ public class SudokuBoard implements Serializable{
     private  List<SudokuSubBoard> columns, rows, boxes;
 
     private BoardChecker boardChecker;
+
+    private final static Logger logger = Logger.getLogger(LoggerManager.class.getName());
 
     public SudokuBoard() {
         boardChecker = new BoardChecker();
@@ -126,9 +129,9 @@ public class SudokuBoard implements Serializable{
     }
 
 
-    public int get(int x, int y) throws Exception {
+    public int get(int x, int y) throws SudokuBoardOutOfBoundGetException {
         if (x < 0 || x >= 9 || y < 0 || y >= 9) {
-            throw new Exception();
+            throw new SudokuBoardOutOfBoundGetException();
         }
         return board.get(x).get(y).getValue();
     }
@@ -145,13 +148,9 @@ public class SudokuBoard implements Serializable{
         return get(x, y);
     }
 
-    //TODO diffrent exceptions
-    public void set(int x, int y, int value) throws Exception {
+    public void set(int x, int y, int value) throws SudokuRuntimeException {
         if (x < 0 || x >= 9 || y < 0 || y >= 9) {
-            throw new Exception();
-        }
-        if (value < 0 || value > 9) {
-            throw new Exception();
+            throw new SudokuBoardOutOfBoundGetException();
         }
         board.get(x).get(y).setValue(value);
     }
