@@ -3,10 +3,10 @@ package sudoku;
 import java.io.*;
 
 public class SudokuSerializer {
-    public static void serialize(SudokuBoard e) {
-        try {
-            FileOutputStream fileOut =
-                    new FileOutputStream("sudoku2.ser");
+    public static void serialize(SudokuBoard e, String fileName) {
+        try (FileOutputStream fileOut =
+                     new FileOutputStream(fileName)){
+
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
             out.writeObject(e);
             out.close();
@@ -16,10 +16,10 @@ public class SudokuSerializer {
         }
     }
 
-    public static SudokuBoard deserialize() {
+    public static SudokuBoard deserialize(String fileName) {
         SudokuBoard e;
-        try {
-            FileInputStream fileIn = new FileInputStream("sudoku2.ser");
+        try (FileInputStream fileIn = new FileInputStream(fileName)){
+
             ObjectInputStream in = new ObjectInputStream(fileIn);
             e = (SudokuBoard) in.readObject();
             in.close();

@@ -3,15 +3,12 @@ package sample;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import sudoku.*;
 
@@ -26,14 +23,18 @@ public class Main extends Application {
     TextField[][] tfs;
     private final static Logger logger = Logger.getLogger(LoggerManager.class.getName());
     TextField tfLoad, tfSave;
+    private FileSudokuBoardDao fileSudokuBoardDao;
+    private JbdcSudokuBoardDaoFactory db;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        SudokuBoardDaoFactory.connect();
-        SudokuBoardDaoFactory.dropTables();
-        SudokuBoardDaoFactory.createTables();
+        db = (JbdcSudokuBoardDaoFactory) SudokuBoardDaoFactory.getDatabaseDao("asd");
+        db.connect();
+        db.dropTables();
+        db.createTables();
         LoggerManager.init();
         solver.solve(board);
+        fileSudokuBoardDao = (FileSudokuBoardDao) SudokuBoardDaoFactory.getFileDao("file.ser");
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Sudoku");
         menuScene = loadMenuScene();
@@ -163,7 +164,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                SudokuSerializer.serialize(board);
+                fileSudokuBoardDao.write(board);
             }
         });
         Button btn2 = new Button();
@@ -173,7 +174,7 @@ public class Main extends Application {
 
             @Override
             public void handle(ActionEvent event) {
-                board = SudokuSerializer.deserialize();
+                board = fileSudokuBoardDao.read();
                 //playScene = loadPlayScene();
                 updatePlayScene();
                 primaryStage.setScene(playScene);
@@ -188,7 +189,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    SudokuBoardDaoFactory.saveSudokuBoard(board, tfSave.getText());
+                    db.saveSudokuBoard(board, tfSave.getText());
                 }catch (SudokuRuntimeException e) {
                     logger.info(e.toString());
                 }
@@ -202,7 +203,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 try {
-                    board = SudokuBoardDaoFactory.loadSudokuBoard(tfLoad.getText());
+                    board = db.loadSudokuBoard(tfLoad.getText());
                 }catch (SudokuRuntimeException e) {
                     logger.info(e.toString());
                 }
